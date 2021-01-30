@@ -6,7 +6,6 @@ contract URLShortner {
     string url;
     bool exists;
     bool paid;
-    uint hits;
   }
   mapping (bytes => URLStruct) lookupTable;
   mapping (address => bytes[]) public shortenedURLs;
@@ -19,7 +18,7 @@ contract URLShortner {
   function shortenURLWithSlug(string memory _url, bytes memory _short, bool paid) public payable {
     bool paidDefault = false;
     if (!lookupTable[_short].exists){
-      lookupTable[_short] = URLStruct(msg.sender, _url, true, paid||paidDefault, 0);
+      lookupTable[_short] = URLStruct(msg.sender, _url, true, paid||paidDefault);
       shortenedURLs[msg.sender].push(_short);
       if(shortenedURLs[msg.sender].length < 1) {
         accts.push(msg.sender);
